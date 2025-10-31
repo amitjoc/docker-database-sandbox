@@ -14,6 +14,7 @@ services:
     volumes:
       - mariadb-master-volume-data:/var/lib/mysql
       - ./etc/mariadb/etc.d/my.cnf:/etc/mysql/etc.d/cnf
+      - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - mariadb-server-network
 volumes:
