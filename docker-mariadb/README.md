@@ -27,6 +27,14 @@ DOCKER-DATABASE-SANDBOX
 
 Environment is db and can be controlled by variable `COMPOSER_PROJECT_NAME` in `.env` file.  
 
+
+## nushell commands 
+
+> Tabular form status
+```docker 
+docker ps -a --format '{{json .}}' | lines | each { |it| $it | from json } | select Names Status
+```
+
 ## Mariadb  
 ### Reference link 
 

@@ -1,4 +1,4 @@
-version: '3'
+# version: '3' # no longer need cli warning
 services:
   mariadb-master:
     image: mariadb:latest
@@ -17,6 +17,11 @@ services:
       - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - mariadb-server-network
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   mariadb-master-volume-data:
 
