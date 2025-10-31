@@ -1,0 +1,30 @@
+# version: '3' # no longer need cli warning
+services:
+  mariadb-master:
+    image: mariadb:latest
+    container_name: mariadb-master-server
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    ports:
+      - '3308:3306'
+    volumes:
+      - mariadb-master-volume-data:/var/lib/mysql
+      - ./etc/mariadb/etc.d/my.cnf:/etc/mysql/etc.d/cnf
+      - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - mariadb-server-network
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  mariadb-master-volume-data:
+
+networks:
+  mariadb-server-network:
+    driver: bridge
